@@ -13,4 +13,5 @@ public:
 	std::wstring getTempDir() const override;
 	Architecture::Value getHostArchitecture() const override;
 	int64_t getEpochTime() const override;
+	void refreshEnvironment() override;
 };

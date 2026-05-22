@@ -141,7 +141,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/DEPENDENTLOADFLAG:0x800 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)fabric-installer-native-bootstrap.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -166,7 +166,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <CETCompat>true</CETCompat>
-      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)fabric-installer-native-bootstrap.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -188,7 +188,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/DEPENDENTLOADFLAG:0x800 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)fabric-installer-native-bootstrap.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -210,7 +210,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/DEPENDENTLOADFLAG:0x800 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)fabric-installer-native-bootstrap.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -235,7 +235,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <CETCompat>true</CETCompat>
-      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)fabric-installer-native-bootstrap.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -260,7 +260,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <CETCompat>false</CETCompat>
-      <AdditionalDependencies>Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Comctl32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)fabric-installer-native-bootstrap.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>

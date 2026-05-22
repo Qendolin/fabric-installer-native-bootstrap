@@ -1,8 +1,12 @@
 #include "SystemHelper.h"
 
+#include <chrono>
+#include <memory>
 #include <Shlwapi.h>
 #include <sstream>
-#include <chrono>
+#include <string>
+#include <string_view>
+#include <Userenv.h>
 
 std::optional<std::wstring> SystemHelper::getRegValue(HKEY hive, const std::wstring& path, const std::wstring& key) const {
 	DWORD dataSize{};
@@ -209,4 +213,34 @@ Architecture::Value SystemHelper::getHostArchitecture() const {
 int64_t SystemHelper::getEpochTime() const {
 	const auto now = std::chrono::system_clock::now();
 	return std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+}
+
+void SystemHelper::refreshEnvironment() {
+	HANDLE rawToken = NULL;
+	if (!::OpenProcessToken(::GetCurrentProcess(), TOKEN_QUERY | TOKEN_DUPLICATE, &rawToken)) {
+		throw std::runtime_error("RefreshEnvironment: OpenProcessToken failed");
+	}
+
+	LPVOID rawEnvBlock = nullptr;
+	if (!::CreateEnvironmentBlock(&rawEnvBlock, rawToken, FALSE)) {
+		::CloseHandle(rawToken);
+		throw std::runtime_error("RefreshEnvironment: CreateEnvironmentBlock failed");
+	}
+
+	const wchar_t* pVar = static_cast<const wchar_t*>(rawEnvBlock);
+	while (*pVar != L'\0') {
+		std::wstring_view entry(pVar);
+		const size_t eqPos = entry.find(L'=');
+
+		if (eqPos != std::wstring_view::npos && eqPos > 0) {
+			std::wstring name(entry.substr(0, eqPos));
+			std::wstring value(entry.substr(eqPos + 1));
+			::SetEnvironmentVariableW(name.c_str(), value.c_str());
+		}
+
+		pVar += entry.length() + 1;
+	}
+
+	::DestroyEnvironmentBlock(rawEnvBlock);
+	::CloseHandle(rawToken);
 }
