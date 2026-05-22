@@ -35,8 +35,7 @@ _Use_decl_annotations_ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevI
 
 	try {
 		systemHelper.refreshEnvironment();
-	}
-	catch (const std::runtime_error& error) {
+	} catch (const std::runtime_error& error) {
 		logger.log(L"refreshEnvironment failed:");
 		logger.log(error.what());
 	}

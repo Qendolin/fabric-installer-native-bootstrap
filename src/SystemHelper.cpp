@@ -226,6 +226,7 @@ void SystemHelper::refreshEnvironment() {
 		::CloseHandle(rawToken);
 		throw std::runtime_error("RefreshEnvironment: CreateEnvironmentBlock failed");
 	}
+	::SetLastError(0);
 
 	const wchar_t* pVar = static_cast<const wchar_t*>(rawEnvBlock);
 	while (*pVar != L'\0') {
