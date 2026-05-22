@@ -2,6 +2,7 @@
 #include "SystemHelper.h"
 #include "Logger.h"
 
+#include <stdexcept>
 #include <Userenv.h>
 #include <memory>
 #include <string_view>
