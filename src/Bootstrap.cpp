@@ -45,25 +45,27 @@ bool Bootstrap::launchMinecraftLauncher() {
 
 	const auto javaPaths = getMinecraftJavaPaths(hostArch);
 
+	std::wstring installPath = {};
 	if (auto minecraftLauncherPath = systemHelper.getRegValue(HKEY_CURRENT_USER, MC_LAUNCH_REG_PATH, MC_LAUNCH_REG_KEY); minecraftLauncherPath) {
-		std::wstring installPath = minecraftLauncherPath.value();
-
 		// This is weird, on my tests machine the reg key value is just "C:\Program Files (x86)\"
-		if (!installPath.ends_with(LR"(Minecraft Launcher\)")) {
-			installPath = installPath + LR"(Minecraft Launcher\)";
-		}
-
-		logger.log(L"Minecraft launcher installation path: " + installPath);
-
-		for (const auto& path : javaPaths) {
-			const std::wstring fullPath = installPath + path;
-			if (attemptLaunch(fullPath, true)) {
-				return true;
-			}
-		}
+		installPath = minecraftLauncherPath.value();
 	}
 	else {
-		logger.log(L"Failed to find minecraft launcher installation directory in registry.");
+		logger.log(L"Failed to find minecraft launcher installation directory in registry. Falling back to 'C:\\Program Files (x86)\\'");
+		installPath = LR"(C:\Program Files (x86)\)";
+	}
+	
+	if (!installPath.ends_with(LR"(Minecraft Launcher\)")) {
+		installPath = installPath + LR"(Minecraft Launcher\)";
+	}
+
+	logger.log(L"Minecraft launcher installation path: " + installPath);
+
+	for (const auto& path : javaPaths) {
+		const std::wstring fullPath = installPath + path;
+		if (attemptLaunch(fullPath, true)) {
+			return true;
+		}
 	}
 
 	// Check %LOCALAPPDATA% for the UWP installer
