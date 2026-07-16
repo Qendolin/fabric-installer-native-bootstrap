@@ -20,4 +20,5 @@ public:
 	virtual Architecture::Value getHostArchitecture() const = 0;
 	virtual int64_t getEpochTime() const = 0;
 	virtual void refreshEnvironment() = 0;
+	virtual std::optional<std::wstring> getProgramFilesX86Dir() const = 0;
 };

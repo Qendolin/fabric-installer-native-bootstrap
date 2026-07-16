@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <memory>
+#include <ShlObj.h>
 #include <Shlwapi.h>
 #include <sstream>
 #include <string>
@@ -244,4 +245,40 @@ void SystemHelper::refreshEnvironment() {
 
 	::DestroyEnvironmentBlock(rawEnvBlock);
 	::CloseHandle(rawToken);
+}
+
+static inline std::optional<std::wstring> getKnownFolder(REFKNOWNFOLDERID folderId) {
+	PWSTR rawPath = nullptr;
+	const HRESULT hr = ::SHGetKnownFolderPath(folderId, KF_FLAG_DEFAULT, nullptr, &rawPath);
+
+	std::optional<std::wstring> result;
+	if (SUCCEEDED(hr) && rawPath != nullptr) {
+		result = std::wstring(rawPath);
+	}
+
+	if (rawPath != nullptr) {
+		::CoTaskMemFree(rawPath);
+	}
+
+	return result;
+}
+
+std::optional<std::wstring> SystemHelper::getProgramFilesX86Dir() const {
+	// On x64/ARM64 Windows this returns the true "Program Files (x86)" folder,
+	// correctly resolved regardless of whether this process itself is
+	// x86, x64, or ARM64.
+	auto path = getKnownFolder(FOLDERID_ProgramFilesX86);
+
+	if (!path) {
+		// FOLDERID_ProgramFilesX86 fails on native 32-bit Windows, since no such
+		// folder exists there. Fall back to the regular Program Files folder,
+		// again via the known-folder API for consistency.
+		path = getKnownFolder(FOLDERID_ProgramFiles);
+	}
+
+	if (path && (path->back() != L'\\')) {
+		*path += L'\\';
+	}
+
+	return path;
 }

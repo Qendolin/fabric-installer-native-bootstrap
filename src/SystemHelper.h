@@ -14,4 +14,5 @@ public:
 	Architecture::Value getHostArchitecture() const override;
 	int64_t getEpochTime() const override;
 	void refreshEnvironment() override;
+	std::optional<std::wstring> getProgramFilesX86Dir() const;
 };

@@ -51,20 +51,22 @@ bool Bootstrap::launchMinecraftLauncher() {
 		installPath = minecraftLauncherPath.value();
 	}
 	else {
-		logger.log(L"Failed to find minecraft launcher installation directory in registry. Falling back to 'C:\\Program Files (x86)\\'");
-		installPath = LR"(C:\Program Files (x86)\)";
+		logger.log(L"Failed to find minecraft launcher installation directory in registry. Falling back to 'Program Files (x86)'");
+		installPath = systemHelper.getProgramFilesX86Dir().value_or({});
 	}
 	
-	if (!installPath.ends_with(LR"(Minecraft Launcher\)")) {
-		installPath = installPath + LR"(Minecraft Launcher\)";
-	}
+	if (!installPath.empty()) {
+		if (!installPath.ends_with(LR"(Minecraft Launcher\)")) {
+			installPath = installPath + LR"(Minecraft Launcher\)";
+		}
 
-	logger.log(L"Minecraft launcher installation path: " + installPath);
+		logger.log(L"Minecraft launcher installation path: " + installPath);
 
-	for (const auto& path : javaPaths) {
-		const std::wstring fullPath = installPath + path;
-		if (attemptLaunch(fullPath, true)) {
-			return true;
+		for (const auto& path : javaPaths) {
+			const std::wstring fullPath = installPath + path;
+			if (attemptLaunch(fullPath, true)) {
+				return true;
+			}
 		}
 	}
 
